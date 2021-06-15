@@ -1,0 +1,16 @@
+dffff = df.copy()
+dffff['count'] = 1
+
+dffff.loc[dffff['region_txt'] == 'Western Europe', 'region_txt'] = 'Western World'
+dffff.loc[dffff['region_txt'] == 'North America', 'region_txt'] = 'Western World'
+dffff.loc[dffff['country_txt'] == 'Japan', 'region_txt'] = 'Western World'
+dffff.loc[dffff['country_txt'] == 'Australia', 'region_txt'] = 'Western World'
+dffff.loc[dffff['country_txt'] == 'New Zealand', 'region_txt'] = 'Western World'
+dffff.loc[dffff['region_txt'] != 'Western World', 'region_txt'] = 'Non Western World'
+
+DF = dffff.groupby(['iyear','country_txt','region_txt'], as_index=False).sum()
+
+fig = px.scatter(DF, x="nkill", y="nwound", animation_frame="iyear", animation_group="country",
+           size="count", color="region_txt", hover_name="country_txt", facet_col="region_txt",
+           log_x=True, log_y=True, size_max=80, range_x=[1,25000], range_y=[1,25000])
+fig.show()
